@@ -51,6 +51,8 @@ list_t *fill_table(char **av, list_t **table)
 
     *table = malloc(sizeof(list_t) * nb_rows + 1);
     (*table)[0].index = 0;
+    (*table)[0].nb_rows = nb_rows;
     //(*table)[nb_rows].type = 'Z';
     return NULL;
 }
+//ayant trop compliqué mon code je stocke le nombre d'éléments uniquement au 1er index de mon tableau de struct

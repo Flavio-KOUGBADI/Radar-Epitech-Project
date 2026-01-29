@@ -48,6 +48,7 @@ typedef struct list {
     double length;
     sfVector2f normalized_vector;
     sfVector2f offset;
+    int nb_rows;
     int active;
 } list_t;
 

@@ -10,9 +10,11 @@
 static void create_circleShape(list_t *table, recipe_t *all)
 {
     for (int i = 0; i < table[0].nb_rows; i++) {
-        if (table[i].type == 'T') {
+        if (table[i].type == 'T')
             table[i].circle = sfCircleShape_create();
-        }
+        if (table[i].type == 'A')
+            table[i].rect = sfRectangleShape_create();
+        
     }
 }
 
@@ -47,7 +49,6 @@ static void display_towers(list_t *table, recipe_t *all)
     for (int i = 0; i < table[0].nb_rows; i++) {
         if (table[i].type == 'T') {
             sfCircleShape_setTexture(table[i].circle, all->t_tower, sfTrue);
-            //sfSprite_setScale(table[i].sp, (sfVector2f){0.3, 0.3});
             sfCircleShape_setRadius(table[i].circle, table[i].radius);
             sfCircleShape_setScale(table[i].circle, (sfVector2f){0.125, 0.1251});
             sfCircleShape_setPosition(table[i].circle, table[i].start);
@@ -74,9 +75,10 @@ void init_play(recipe_t *all, list_t *table)
 void init_destroy(recipe_t *all, list_t *table)
 {
     for (int i = 0; i < table[0].nb_rows; i++) {
-        if (table[i].type == 'T') {
+        if (table[i].type == 'T')
             sfCircleShape_destroy(table[i].circle);
-        }
+        if (table[i].type == 'A')
+            sfRectangleShape_destroy(table[i].rect);
     }
     sfTexture_destroy(all->t_tower);
     sfTexture_destroy(T_BG);

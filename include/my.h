@@ -38,6 +38,7 @@
 typedef struct list {
     sfSprite *sp;
     sfCircleShape *circle;
+    sfRectangleShape *rect;
     char type;
     sfVector2f start;
     sfVector2f end;

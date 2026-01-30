@@ -54,7 +54,7 @@ static void display_towers(list_t *table, recipe_t *all)
             pos.y = table[i].start.y + (table[i].radius / 2);
             sfCircleShape_setFillColor(table[i].circle, sfTransparent);
             sfSprite_setPosition(table[i].sp, table[i].start);
-            sfSprite_setScale(table[i].sp, (sfVector2f){1, 1});
+            sfSprite_setScale(table[i].sp, (sfVector2f){0.5, 0.5});
             sfCircleShape_setRadius(table[i].circle, table[i].radius);
             sfCircleShape_setScale(table[i].circle, (sfVector2f){0.125, 0.1251});
             sfCircleShape_setPosition(table[i].circle, pos);

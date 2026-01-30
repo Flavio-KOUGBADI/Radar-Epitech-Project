@@ -9,8 +9,10 @@
 
 static void create_circleShape(list_t *table)
 {
-    for (int i = 0; i < table[0].nb_rows; i++)
-        table[i].circle = sfCircleShape_create();
+    for (int i = 0; i < table[0].nb_rows; i++) {
+        if (table[i].type == 'T')
+            table[i].circle = sfCircleShape_create();
+    }
 }
 
 static void init_create(recipe_t *all, list_t *table)
@@ -52,8 +54,10 @@ void init_play(recipe_t *all, list_t *table)
 /*TEXTURE is the bg texture and SPRITE is BG sprite*/
 void init_destroy(recipe_t *all, list_t *table)
 {
-    for (int i = 0; i < table[0].nb_rows; i++)
-        sfCircleShape_destroy(table[i].circle);
+    for (int i = 0; i < table[0].nb_rows; i++) {
+        if (table[i].type == 'T')
+            sfCircleShape_destroy(table[i].circle);
+    }
     sfTexture_destroy(all->t_tower);
     sfTexture_destroy(T_BG);
     sfSprite_destroy(S_BG);

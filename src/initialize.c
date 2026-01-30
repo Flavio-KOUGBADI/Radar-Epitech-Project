@@ -7,11 +7,14 @@
 
 #include "../include/my.h"
 
-static void create_circleShape(list_t *table)
+static void create_circleShape(list_t *table, recipe_t *all)
 {
     for (int i = 0; i < table[0].nb_rows; i++) {
-        if (table[i].type == 'T')
+        if (table[i].type == 'T') {
+            table[i].sp = sfSprite_create();
             table[i].circle = sfCircleShape_create();
+            sfSprite_setTexture(table[i].sp, all->t_tower, sfTrue);
+        }
     }
 }
 
@@ -23,11 +26,12 @@ static void init_create(recipe_t *all, list_t *table)
     all->window = sfRenderWindow_create(MODE, "My_radar",
         sfDefaultStyle, NULL);
     T_BG = sfTexture_createFromFile("assets/map.png", NULL);
-    all->t_tower = sfTexture_createFromFile("assets/tower", NULL);
+    all->t_tower = sfTexture_createFromFile("assets/tower.png", NULL);
     S_BG = sfSprite_create();
     sfSprite_setTexture(S_BG, T_BG, sfTrue);
+    sfSprite_setScale(S_BG, (sfVector2f){0.82, 0.8});
     sfRenderWindow_setFramerateLimit(WINDOW, 60);
-    create_circleShape(table);
+    create_circleShape(table, all);
 }
 
 void init_event(recipe_t *all)
@@ -40,6 +44,28 @@ void init_event(recipe_t *all)
     }
 }
 
+static void display_towers(list_t *table, recipe_t *all)
+{
+    sfVector2f pos;
+
+    for (int i = 0; i < table[0].nb_rows; i++) {
+        if (table[i].type == 'T') {
+            pos.x = table[i].start.x + (table[i].radius / 2);
+            pos.y = table[i].start.y + (table[i].radius / 2);
+            sfCircleShape_setFillColor(table[i].circle, sfTransparent);
+            sfSprite_setPosition(table[i].sp, table[i].start);
+            sfSprite_setScale(table[i].sp, (sfVector2f){1, 1});
+            sfCircleShape_setRadius(table[i].circle, table[i].radius);
+            sfCircleShape_setScale(table[i].circle, (sfVector2f){0.125, 0.1251});
+            sfCircleShape_setPosition(table[i].circle, pos);
+            sfCircleShape_setOutlineColor(table[i].circle, sfCyan);
+            sfCircleShape_setOutlineThickness(table[i].circle, 4);
+            sfRenderWindow_drawSprite(all->window, table[i].sp, NULL);
+            sfRenderWindow_drawCircleShape(all->window, table[i].circle, NULL);
+        }
+    }
+}
+
 void init_play(recipe_t *all, list_t *table)
 {
     init_create(all, table);
@@ -47,6 +73,7 @@ void init_play(recipe_t *all, list_t *table)
         init_event(all);
         sfRenderWindow_clear(WINDOW, sfBlack);
         sfRenderWindow_drawSprite(WINDOW, S_BG, NULL);
+        display_towers(table, all);
         sfRenderWindow_display(WINDOW);
     }
 }
@@ -55,8 +82,10 @@ void init_play(recipe_t *all, list_t *table)
 void init_destroy(recipe_t *all, list_t *table)
 {
     for (int i = 0; i < table[0].nb_rows; i++) {
-        if (table[i].type == 'T')
+        if (table[i].type == 'T') {
+            sfSprite_destroy(table[i].sp);
             sfCircleShape_destroy(table[i].circle);
+        }
     }
     sfTexture_destroy(all->t_tower);
     sfTexture_destroy(T_BG);

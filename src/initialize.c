@@ -11,9 +11,7 @@ static void create_circleShape(list_t *table, recipe_t *all)
 {
     for (int i = 0; i < table[0].nb_rows; i++) {
         if (table[i].type == 'T') {
-            table[i].sp = sfSprite_create();
             table[i].circle = sfCircleShape_create();
-            sfSprite_setTexture(table[i].sp, all->t_tower, sfTrue);
         }
     }
 }
@@ -46,21 +44,15 @@ void init_event(recipe_t *all)
 
 static void display_towers(list_t *table, recipe_t *all)
 {
-    sfVector2f pos;
-
     for (int i = 0; i < table[0].nb_rows; i++) {
         if (table[i].type == 'T') {
-            pos.x = table[i].start.x + (table[i].radius / 2);
-            pos.y = table[i].start.y + (table[i].radius / 2);
-            sfCircleShape_setFillColor(table[i].circle, sfTransparent);
-            sfSprite_setPosition(table[i].sp, table[i].start);
-            sfSprite_setScale(table[i].sp, (sfVector2f){0.5, 0.5});
+            sfCircleShape_setTexture(table[i].circle, all->t_tower, sfTrue);
+            //sfSprite_setScale(table[i].sp, (sfVector2f){0.3, 0.3});
             sfCircleShape_setRadius(table[i].circle, table[i].radius);
             sfCircleShape_setScale(table[i].circle, (sfVector2f){0.125, 0.1251});
-            sfCircleShape_setPosition(table[i].circle, pos);
+            sfCircleShape_setPosition(table[i].circle, table[i].start);
             sfCircleShape_setOutlineColor(table[i].circle, sfCyan);
             sfCircleShape_setOutlineThickness(table[i].circle, 4);
-            sfRenderWindow_drawSprite(all->window, table[i].sp, NULL);
             sfRenderWindow_drawCircleShape(all->window, table[i].circle, NULL);
         }
     }
@@ -83,7 +75,6 @@ void init_destroy(recipe_t *all, list_t *table)
 {
     for (int i = 0; i < table[0].nb_rows; i++) {
         if (table[i].type == 'T') {
-            sfSprite_destroy(table[i].sp);
             sfCircleShape_destroy(table[i].circle);
         }
     }

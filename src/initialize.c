@@ -7,6 +7,12 @@
 
 #include "../include/my.h"
 
+static void create_circleShape(list_t *table)
+{
+    for (int i = 0; i < table[0].nb_rows; i++)
+        table[i].circle = sfCircleShape_create();
+}
+
 static void init_create(recipe_t *all, list_t *table)
 {
     all->mode.width = 1920;
@@ -15,9 +21,11 @@ static void init_create(recipe_t *all, list_t *table)
     all->window = sfRenderWindow_create(MODE, "My_radar",
         sfDefaultStyle, NULL);
     T_BG = sfTexture_createFromFile("assets/map.png", NULL);
+    all->t_tower = sfTexture_createFromFile("assets/tower", NULL);
     S_BG = sfSprite_create();
     sfSprite_setTexture(S_BG, T_BG, sfTrue);
     sfRenderWindow_setFramerateLimit(WINDOW, 60);
+    create_circleShape(table);
 }
 
 void init_event(recipe_t *all)
@@ -44,6 +52,9 @@ void init_play(recipe_t *all, list_t *table)
 /*TEXTURE is the bg texture and SPRITE is BG sprite*/
 void init_destroy(recipe_t *all, list_t *table)
 {
+    for (int i = 0; i < table[0].nb_rows; i++)
+        sfCircleShape_destroy(table[i].circle);
+    sfTexture_destroy(all->t_tower);
     sfTexture_destroy(T_BG);
     sfSprite_destroy(S_BG);
     sfRenderWindow_destroy(WINDOW);

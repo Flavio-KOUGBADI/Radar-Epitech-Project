@@ -37,6 +37,7 @@
     #define VY table[i].normalized_vector.y
 typedef struct list {
     sfSprite *sp;
+    sfCircleShape *circle;
     char type;
     sfVector2f start;
     sfVector2f end;

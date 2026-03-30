@@ -1,0 +1,13 @@
+name: chocolatine
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  check_coding_style:
+  compilation:
+  tests:
+  etc:

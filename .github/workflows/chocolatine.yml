@@ -21,6 +21,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@github.com:Flavio-KOUGBADI/Radar-Epitech-Project.git
+          ssh_private_key:
+            ${{ secrets.SSH_KEY }}
+
       - name: Checkout repository
         run: banana-check-repo
 

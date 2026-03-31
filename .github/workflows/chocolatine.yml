@@ -5,9 +5,25 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
+
+env:
+  MIRROR_SSH_URL: ${{ vars.MIRROR_SSH_URL }}
+  EXECUTABLES: ${{ vars.EXECUTABLES }}
 
 jobs:
-  check_coding_style:
-  compilation:
-  tests:
-  etc:
+  check_compilation_and_coding_style:
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+
+    steps:
+      - name: get the repository file
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+      - name: Run Banana-check repo
+        run: banana-check-repo
+  run_tests:
+    runs-on: ubuntu-latest
+  push_to_mirror:
+    runs-on: ubuntu-latest
